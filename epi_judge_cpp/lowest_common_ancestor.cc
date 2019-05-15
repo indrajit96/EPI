@@ -5,9 +5,34 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 using std::unique_ptr;
+BinaryTreeNode<int> * array_1[100];
+BinaryTreeNode<int> * array_2[100];
+
+void insert() {
+  
+void inorder() {
+  if(tree_node == NULL) {
+    return NULL;
+  }
+  inorder(tree_node->left);
+  insert(tree_node,0);
+  inorder(tree_node->right);
+}
+void preorder() {
+   if(tree_node == NULL) {
+    return NULL;
+  }
+  insert(tree_node,1);
+  pre_order(tree_node->left);
+  pre_order(tree_node->right);
+}
+ 
 BinaryTreeNode<int>* LCA(const unique_ptr<BinaryTreeNode<int>>& tree,
                          const unique_ptr<BinaryTreeNode<int>>& node0,
                          const unique_ptr<BinaryTreeNode<int>>& node1) {
+  inorder(tree,node,node1);
+  preorder(tree,node,node1);
+
   // TODO - you fill in here.
   return nullptr;
 }
