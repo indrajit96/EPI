@@ -7,8 +7,9 @@ using std::string;
 using std::vector;
 
 vector<vector<string>> PalindromeDecompositions(const string& input) {
-  // TODO - you fill in here.
-  return {};
+  vector<vector<string>> result;
+  driver(input,0,new vector<string>, &result);
+  return result;
 }
 bool Comp(vector<vector<string>> expected, vector<vector<string>> result) {
   std::sort(begin(expected), end(expected));
