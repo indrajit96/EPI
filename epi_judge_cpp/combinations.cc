@@ -2,9 +2,27 @@
 #include "test_framework/generic_test.h"
 using std::vector;
 
+void helper (int size, int dec_pointer, vector<int> * selected, vector<vector<int>>* power_set, int limit) {
+
+ if(selected->size() == limit) {
+   power_set->emplace_back(*selected);
+   return;
+ }
+ if(dec_pointer > size) {
+   return;
+ }
+ selected->push_back(dec_pointer);
+ helper(size,dec_pointer+1,selected,power_set,limit);
+ selected->pop_back();
+ helper(size,dec_pointer+1,selected,power_set,limit);
+}
+
+
 vector<vector<int>> Combinations(int n, int k) {
-  // TODO - you fill in here.
-  return {};
+  vector<vector<int>> power_set;
+  helper(n,1,new vector<int>,&power_set,k);
+ // TODO - you fill in here.
+  return power_set;
 }
 
 int main(int argc, char* argv[]) {
