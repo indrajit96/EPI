@@ -6,6 +6,30 @@
 using std::string;
 using std::vector;
 
+bool IsPal(const string& prefix) {
+  for (int i = 0, j = prefix.size() - 1; i < j; ++i, --j) {
+    if (prefix[i] != prefix[j]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+void driver(const string& input, int dec_pointer , vector<string>* selected , vector<vector<string>>* result) {
+  if(dec_pointer == input.size()) {
+    result->emplace_back(*selected);
+    return;
+  }
+  for(int i = dec_pointer + 1 ; i<= input.size(); ++i) {
+    string tmp = input.substr(dec_pointer, i-dec_pointer);
+    if(IsPal(tmp)) {
+      selected->emplace_back(tmp);
+      driver(input,i,selected,result);
+      selected->pop_back();
+    }
+  }
+}
+
 vector<vector<string>> PalindromeDecompositions(const string& input) {
   vector<vector<string>> result;
   driver(input,0,new vector<string>, &result);
