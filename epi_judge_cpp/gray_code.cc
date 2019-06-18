@@ -4,15 +4,42 @@
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
+#include <set>
 using std::vector;
 
-vector<int> GrayCode(int num_bits) {
-  // TODO - you fill in here.
-  return {};
-}
 bool DiffersByOneBit(int x, int y) {
   int bit_difference = x ^ y;
   return bit_difference && !(bit_difference & (bit_difference - 1));
+}
+
+bool driver(int num_bits,vector<int> *result,std::set<int> *current_set) {
+  if(result->size() == (1 << num_bits)) {
+    return DiffersByOneBit(result->front(),result->back());
+  }
+
+  int prev;
+  int elem_to_add;
+  for(int i=0;i<num_bits;i++) {
+    prev = result->back();
+    elem_to_add = (prev ^ (1 << i));
+    if(!current_set->count(elem_to_add)) {
+      result->emplace_back(elem_to_add);
+      current_set->emplace(elem_to_add);
+      if(driver(num_bits,result,current_set))
+        return true;
+      result->pop_back();
+      current_set->erase(elem_to_add);
+    }
+  }
+  return false;
+}
+
+vector<int> GrayCode(int num_bits) {
+  vector<int> result({0});
+  std::set<int> current_set({0});
+  driver(num_bits,&result,&current_set);
+  // TODO - you fill in here.
+  return result;
 }
 
 void GrayCodeWrapper(TimedExecutor& executor, int num_bits) {
